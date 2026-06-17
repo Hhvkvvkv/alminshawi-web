@@ -67,37 +67,6 @@ h1 {
   margin-bottom: 8px;
 }
 
-.downloads-btn {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--button-bg);
-  border: 2px solid var(--gold);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: all 0.3s;
-  padding: 14px;
-}
-
-.downloads-btn i {
-  color: var(--gold);
-  font-size: 22px;
-}
-
-.downloads-btn:hover {
-  background: var(--medium-green);
-}
-
-.downloads-label {
-  font-size: 12px;
-  color: var(--dark-gold);
-  margin-top: 4px;
-  text-align: center;
-}
-
 .search-container {
   position: relative;
   margin: 8px 16px 4px;

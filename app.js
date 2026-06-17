@@ -119,29 +119,10 @@ function downloadSurah(s) {
 function playSurah(index) {
   if (index < 0 || index >= SURAHS.length) return;
   const wasSame = index === currentIndex;
-  currentIndex = index;
-
-  document.querySelectorAll('.surah-item').forEach((el, i) => {
-    el.classList.toggle('active', i === currentIndex);
-  });
-
-  if (!wasSame) {
-    const s = SURAHS[currentIndex];
-    audio.src = getAudioUrl(s.num);
-    audio.load();
-    currentSurahName.textContent = s.name;
-  }
-
-  audio.play().then(() => {
-    isPlaying = true;
-    updatePlayButton();
-    player.classList.remove('player-hidden');
-  }).catch(() => {});
+  const s = SURAHS[index];
 
   if (wasSame && isPlaying) {
     audio.pause();
-    isPlaying = false;
-    updatePlayButton();
     return;
   }
 
@@ -150,7 +131,22 @@ function playSurah(index) {
       isPlaying = true;
       updatePlayButton();
     }).catch(() => {});
+    return;
   }
+
+  currentIndex = index;
+  document.querySelectorAll('.surah-item').forEach((el, i) => {
+    el.classList.toggle('active', i === currentIndex);
+  });
+
+  audio.src = getAudioUrl(s.num);
+  audio.load();
+  currentSurahName.textContent = s.name;
+  player.classList.remove('player-hidden');
+  audio.play().then(() => {
+    isPlaying = true;
+    updatePlayButton();
+  }).catch(() => {});
 }
 
 function updatePlayButton() {
@@ -237,19 +233,8 @@ playBtn.addEventListener('click', togglePlay);
 prevBtn.addEventListener('click', playPrev);
 nextBtn.addEventListener('click', playNext);
 
-document.getElementById('btnDownloads').addEventListener('click', () => {
-  showToast('يمكنك تحميل أي سورة من زر التحميل بجانبها');
-});
-
 searchInput.addEventListener('input', (e) => {
   renderSurahs(e.target.value);
-});
-
-document.addEventListener('click', (e) => {
-  if (currentIndex !== -1 && !e.target.closest('#player') && !e.target.closest('.surah-item')) {
-    const isSurahClick = e.target.closest('.surah-item');
-    if (isSurahClick) return;
-  }
 });
 
 renderSurahs();
