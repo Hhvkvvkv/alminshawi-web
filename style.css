@@ -1,0 +1,397 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --dark-green: #0D2818;
+  --medium-green: #1A4A2E;
+  --light-green: #2D6A4F;
+  --gold: #FFD700;
+  --dark-gold: #C9A84C;
+  --light-gold: #FFF3B0;
+  --surah-bg: #1A2D1C;
+  --surah-border: #C9A84C;
+  --button-bg: #2D6A4F;
+  --semi-transparent: #80000000;
+  --white: #FFFFFF;
+}
+
+body {
+  font-family: 'Amiri', serif;
+  background: var(--dark-green);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 16px;
+}
+
+.sheikh-photo {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  object-fit: cover;
+  margin-top: 8px;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--gold);
+  margin-top: 12px;
+  text-align: center;
+}
+
+.surah-count {
+  font-size: 14px;
+  color: var(--dark-gold);
+  margin-top: 4px;
+  text-align: center;
+}
+
+.gold-divider {
+  width: 80px;
+  height: 2px;
+  background: var(--gold);
+  margin-top: 12px;
+  margin-bottom: 8px;
+}
+
+.downloads-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--button-bg);
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.3s;
+  padding: 14px;
+}
+
+.downloads-btn i {
+  color: var(--gold);
+  font-size: 22px;
+}
+
+.downloads-btn:hover {
+  background: var(--medium-green);
+}
+
+.downloads-label {
+  font-size: 12px;
+  color: var(--dark-gold);
+  margin-top: 4px;
+  text-align: center;
+}
+
+.search-container {
+  position: relative;
+  margin: 8px 16px 4px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  font-size: 14px;
+  z-index: 1;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 42px 12px 16px;
+  border: 1px solid var(--surah-border);
+  border-radius: 20px;
+  background: var(--surah-bg);
+  color: var(--white);
+  font-size: 14px;
+  font-family: 'Amiri', serif;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--gold);
+}
+
+.search-input::placeholder {
+  color: var(--dark-gold);
+  opacity: 0.7;
+}
+
+.surah-list {
+  padding: 4px 16px 16px;
+}
+
+.surah-item {
+  display: flex;
+  align-items: center;
+  background: var(--surah-bg);
+  border: 2px solid var(--surah-border);
+  border-radius: 24px;
+  padding: 0 16px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  height: 64px;
+}
+
+.surah-item:hover {
+  border-color: var(--gold);
+  background: var(--medium-green);
+}
+
+.surah-item.active {
+  border-color: var(--gold);
+  background: var(--medium-green);
+}
+
+.surah-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.surah-item:hover .surah-number {
+  background: var(--gold);
+  color: var(--dark-green);
+}
+
+.surah-item.active .surah-number {
+  background: var(--gold);
+  color: var(--dark-green);
+}
+
+.surah-divider {
+  width: 1px;
+  height: 32px;
+  background: var(--surah-border);
+  margin: 0 12px;
+  flex-shrink: 0;
+}
+
+.surah-name {
+  flex: 1;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.surah-download {
+  background: none;
+  border: none;
+  color: var(--dark-gold);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 8px;
+  flex-shrink: 0;
+  transition: color 0.3s;
+}
+
+.surah-download:hover {
+  color: var(--gold);
+}
+
+#player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--dark-green);
+  border-top: 1px solid var(--surah-border);
+  z-index: 1000;
+  transition: transform 0.3s ease;
+  padding: 0 0 env(safe-area-inset-bottom, 0);
+}
+
+.player-hidden {
+  transform: translateY(100%);
+}
+
+.seekbar {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--medium-green);
+  outline: none;
+  cursor: pointer;
+  border: none;
+}
+
+.seekbar::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  border: none;
+}
+
+.seekbar::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--gold);
+  cursor: pointer;
+  border: none;
+}
+
+.seekbar::-webkit-slider-runnable-track {
+  height: 3px;
+}
+
+.seekbar::-moz-range-track {
+  height: 3px;
+  background: var(--medium-green);
+  border: none;
+}
+
+.player-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+}
+
+.player-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.player-surah-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-times {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--dark-gold);
+  direction: ltr;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: var(--white);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-btn:hover {
+  color: var(--gold);
+}
+
+.play-btn {
+  width: 48px;
+  height: 48px;
+  background: var(--button-bg);
+  border: 2px solid var(--gold);
+  color: var(--gold);
+  font-size: 20px;
+}
+
+.play-btn:hover {
+  background: var(--medium-green);
+}
+
+.play-btn i {
+  margin-right: 2px;
+}
+
+.bottom-spacer {
+  height: 80px;
+}
+
+.toast {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: var(--dark-green);
+  color: var(--gold);
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 13px;
+  border: 1px solid var(--surah-border);
+  opacity: 0;
+  transition: all 0.5s ease;
+  z-index: 2000;
+  white-space: nowrap;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 400px) {
+  .surah-item {
+    height: 56px;
+    padding: 0 12px;
+  }
+  .surah-number {
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+  }
+  .surah-name {
+    font-size: 16px;
+  }
+  .surah-divider {
+    margin: 0 8px;
+  }
+  h1 {
+    font-size: 20px;
+  }
+  .sheikh-photo {
+    width: 100px;
+    height: 100px;
+  }
+}
