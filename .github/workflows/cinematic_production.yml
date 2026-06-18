@@ -1,0 +1,56 @@
+name: إنتاج فيلم المنشاوي السينمائي
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 * * 0'
+
+env:
+  ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+  TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+  TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+  ASSET1: "https://clck.ru/3U8ST9"
+  ASSET2: "https://clck.ru/3UF2Uk"
+  ASSET3: "https://clck.ru/3UF2Xv"
+
+jobs:
+  produce:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: تثبيت الأدوات
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg sox libsox-fmt-mp3 parallel wget curl
+          pip install requests pydub numpy
+
+      - name: تحميل الملفات المصدر
+        run: python3 scripts/download_assets.py
+
+      - name: تنظيف المسار الصوتي للمؤثرات (Asset 3)
+        run: python3 scripts/cleanup_sfx.py
+
+      - name: تقسيم النص إلى مقاطع لكل شخصية
+        run: python3 scripts/parse_script.py
+
+      - name: توليد الصوت لكل شخصية عبر ElevenLabs
+        run: python3 scripts/generate_voices.py
+
+      - name: خلط الصوت النهائي مع المؤثرات
+        run: python3 scripts/mix_audio.py
+
+      - name: توليد الفيديو
+        run: python3 scripts/generate_video.py
+
+      - name: رفع الملفات إلى Telegram
+        run: python3 scripts/upload_telegram.py
+
+      - name: رفع الملفات كـ Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cinematic-output
+          path: |
+            output/*.mp4
+            output/*.mp3
